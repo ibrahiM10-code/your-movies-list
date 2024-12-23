@@ -1,28 +1,34 @@
-from classes import FileManager, RandomSelector
+from classes import FileManager, RandomSelector, Processes
 import os
 
-movies_list = []
-
+rndm_selector = RandomSelector()
+process = Processes(random_selector=rndm_selector)
 decision = int(input("Are you creating a new movie/series list or checking one? (1/2): "))
 
 if decision == 1:
+    new_file = input("Give a name to the file: ")
+    new_file = FileManager(file_name=new_file, list_items=None)
     while True:
-        new_file = input("Give a name to the file: ")
-        movie = input("Add to your txt file: ")
-        movies_list.append(movie)
-        continue_adding = input("Want to add more? yes/no: ")
-        if continue_adding == "no":
+        continue_adding = process.add_to_new_file(file_manager=new_file)
+        if continue_adding == "n":
             break
 elif decision == 2:
-    file_name = input("Write the name of the file which movies you want to check out: ")
-    file_mng = FileManager(file_name=file_name, list_items=movies_list)
-    file_mng.get_file_data()
-    rndm_movie = input("Do you want to get a random movie/series to watch? (y/n): ")
-    if "y" == rndm_movie.lower():
-        rndm_selector = RandomSelector()
-        chosen_item = rndm_selector.find_item(items_list=file_mng.get_data())
-        print(chosen_item + " is the chosen movie.")
-        file_mng.update_file(random_item=chosen_item)
-    else:
+    os.system("cls")
+    process.display_lists()
+    file_name = input("Write the name of the file which movies/series you want to check out: ")
+    file_mng = FileManager(file_name=file_name)
+    if not file_mng.get_file_data():
+        rndm_movie = int(input("Do you want to get a random movie/series to watch? or Are you trying to add a movie/series? (1/2): "))
         os.system("cls")
-        print("Goodbye!")
+        while True:
+            if rndm_movie == 1:
+                process.get_random_movie_series(file_manager=file_mng)
+                os.system("cls")
+                break
+            elif rndm_movie == 2:
+                add_more = process.add_movie_series(file_manager=file_mng)
+                if add_more.lower() == "n":
+                    break
+            else:
+                os.system("cls")
+                print("Goodbye!")
