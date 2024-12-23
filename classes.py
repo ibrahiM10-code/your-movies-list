@@ -89,6 +89,7 @@ class Processes:
                 time.sleep(1)
         except Exception as e:
             print(f"Error while selecting random movie/series: {e}")
+            return False
 
     def add_movie_series(self, file_manager: FileManager):
         try:
@@ -100,7 +101,7 @@ class Processes:
             return more_to_add
         except Exception as e:
             print(f"Error while adding movie/series: {e}")
-            return "n"
+            return False
 
     def add_to_new_file(self, file_manager: FileManager):
         try:

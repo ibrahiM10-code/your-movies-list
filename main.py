@@ -22,13 +22,17 @@ elif decision == 2:
         os.system("cls")
         while True:
             if rndm_movie == 1:
-                process.get_random_movie_series(file_manager=file_mng)
-                os.system("cls")
-                break
+                if not process.get_random_movie_series(file_manager=file_mng):
+                    os.system("cls")
+                    break
+                else:
+                    print("There has been a problem getting a random movie/series, try again.")
             elif rndm_movie == 2:
                 add_more = process.add_movie_series(file_manager=file_mng)
                 if add_more.lower() == "n":
                     break
+                elif add_more == False:
+                    print("There has been a problem when adding the movie/series, try again.")
             else:
                 os.system("cls")
                 print("Goodbye!")
