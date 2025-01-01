@@ -19,7 +19,7 @@ class FileManager:
             with open(f"{self.file_name}.txt", "w") as file:
                 for item in self.list_items:
                     file.write(item + "\n")
-            print("Items added successfully!")
+            print("Movies/series added successfully!")
         except Exception as e:
             print(f"Error while creating file: {e}")
             return False
@@ -37,7 +37,8 @@ class FileManager:
         try:
             with open(f"{self.file_name}.txt", "r") as file:
                 data = file.readlines()
-                print(f"You have {len(data)} items in your file.")
+                os.system("cls")
+                print(f"You have {len(data)} movies/series in your file.")
                 time.sleep(1)
                 for text in data:
                     print(text.strip("\n"))
@@ -58,7 +59,7 @@ class FileManager:
             with open(f"{self.file_name}.txt", "w") as file:
                 file.writelines(updated_lines)
 
-            print(f"{random_item} has been removed from the text file.")
+            print(f"{random_item} has been removed from the list.")
         except FileNotFoundError:
             print("Error: File not found.")
         except Exception as e:
@@ -85,8 +86,8 @@ class Processes:
             chosen_item = self.random_selector.find_item(items_list=file_manager.get_data())
             if chosen_item:
                 print(chosen_item + " is the chosen movie/series.")
-                file_manager.update_file(random_item=chosen_item)
                 time.sleep(1)
+                file_manager.update_file(random_item=chosen_item)
         except Exception as e:
             print(f"Error while selecting random movie/series: {e}")
             return False
@@ -105,7 +106,7 @@ class Processes:
 
     def add_to_new_file(self, file_manager: FileManager):
         try:
-            movie = input("Add to your txt file: ")
+            movie = input("Add to your list: ")
             if not file_manager.add_data(new_item=movie):
                 continue_adding = input("Want to add more? yes/no: ")
                 os.system("cls")
